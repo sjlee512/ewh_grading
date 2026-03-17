@@ -1,5 +1,4 @@
 import streamlit as st
-import datetime
 
 st.title("호구조사하기!")
 
@@ -8,7 +7,7 @@ if 'page' not in st.session_state:
 
 # 페이지1
 if st.session_state.page == 'page1':
-    name = st.selectbox(label="이름을 선택하세요", options=['규잉', '갬', '승메'])
+    name = st.selectbox(label="이름을 선택하세요", options=['이규인', '김형후', '정승민'])
 
     if st.button("다음 페이지"):
         st.session_state['name'] = name
@@ -45,7 +44,7 @@ elif st.session_state.page == 'page3':
 
 # 페이지4
 elif st.session_state.page == 'page4':
-    birth = st.date_input(label=f"{st.session_state['name']}님의 생일은 언제입니까", min_value=datetime.date(1900, 1, 1), max_value=datetime.date(1999, 12,31))
+    birth = st.date_input(label=f"{st.session_state['name']}님의 생일은 언제입니까")
 
     if st.button("이전 페이지"):
         st.session_state.page = 'page3'
@@ -66,7 +65,7 @@ elif st.session_state.page == 'page5':
 
     if st.button("다음 페이지"):
         st.session_state['marriage'] = marriage
-        st.session_state.page = 'page6' 
+        st.session_state.page = 'page_final' 
         st.rerun()
 
 # 페이지6
@@ -89,6 +88,13 @@ if st.session_state.page == 'page_final':
     st.write(f"생일은 {st.session_state['birth']}이시군요.")
     st.write(f"키와 몸무게는 {st.session_state['height']}cm, {st.session_state['weight']}kg이시구요")
     st.write(f"직업은 {st.session_state['career']}이시네요")
-    st.write(f"외모는 살짝아쉽네요")
-    st.divider()
-    st.write(f"{st.session_state['name']}님의 종합 점수는 C입니다.")
+    if st.session_state['look'] >= 5:
+        if st.session_state['marriage'] == True:
+            st.write(f"외모가 {st.session_state['look']}점이라 결혼도 하셨군요!")
+        else:
+            st.write(f"외모가 {st.session_state['look']}점인데 결혼은 왜못하셨을까요..?")
+    else:
+        if st.session_state['marriage'] == True:
+            st.write(f"외모가 {st.session_state['look']}점이신데도 결혼도 하셨군요!")
+        else:
+            st.write(f"외모가 {st.session_state['look']}점이니 결혼은 어려우시겠네요..ㅎㅎ")
